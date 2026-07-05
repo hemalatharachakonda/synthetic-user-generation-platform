@@ -1,52 +1,57 @@
 """
-Theme constants and Plotly template for the "Signal" (Modern SaaS) visual identity.
+Theme constants and Plotly template for the "Dianne" visual identity:
+Blue Dianne as the single background color, bright aqua as the single accent.
 Import PLOTLY_LAYOUT and apply it to every chart via fig.update_layout(**PLOTLY_LAYOUT)
 so all visualizations share one consistent look.
 """
 
 # ── Core palette (kept in sync with styles/custom.css) ───────────────────────
-BG = "#F7F7FC"
-BG_ALT = "#F0EFFB"
-INK = "#14141F"
-INK_SOFT = "#62627A"
-VIOLET = "#6D4FF2"
-VIOLET_DARK = "#4B33C7"
-VIOLET_TINT = "#ECE7FE"
-TEAL = "#0FBF9F"
-TEAL_DARK = "#0A9A81"
-TEAL_TINT = "#DFF9F3"
-CORAL = "#F2554F"
-CORAL_TINT = "#FDE4E2"
-CARD_BG = "#FFFFFF"
-BORDER = "#E7E6F3"
+BG = "#204852"            # Blue Dianne — page background, used everywhere
+BG_DEEP = "#152F35"
+BG_SOFT = "#2A5762"
+
+SURFACE = "#F4F7F7"        # card surface (neutral, not a design color)
+SURFACE_ALT = "#E9EFEF"
+
+INK = "#14282C"            # text on light surfaces
+INK_SOFT = "#55696D"
+INK_ON_DARK = "#F4F7F7"    # text on the dark background
+INK_ON_DARK_SOFT = "#B9CBCE"
+
+ACCENT = "#4FD1C5"         # the one accent color — bright aqua
+ACCENT_DARK = "#2BA79B"
+ACCENT_TINT = "#DEF7F4"
+ACCENT_TINT_STRONG = "#A9EDE3"
+
+BORDER = "#D7E3E3"
 
 FONT_DISPLAY = "Sora, -apple-system, sans-serif"
 FONT_BODY = "Inter, -apple-system, sans-serif"
 FONT_MONO = "JetBrains Mono, SFMono-Regular, monospace"
 
-# Sentiment / status colors used across dashboard + charts
+# Sentiment / status — single accent hue at different weights, not multiple colors
 SENTIMENT_COLORS = {
-    "Positive": TEAL,
-    "Neutral": VIOLET,
-    "Negative": CORAL,
+    "Positive": ACCENT,
+    "Neutral": ACCENT_TINT_STRONG,
+    "Negative": BG_SOFT,
 }
 
 SCORE_TIER_COLORS = {
-    "high": TEAL,    # >= 7
-    "mid": VIOLET,   # 4 - 6.9
-    "low": CORAL,    # < 4
+    "high": ACCENT,
+    "mid": ACCENT_TINT_STRONG,
+    "low": BG_SOFT,
 }
 
-# Discrete colorway used for multi-series/categorical charts
-COLORWAY = [VIOLET, TEAL, CORAL, VIOLET_DARK, "#9B87F5", "#5BD8BE"]
+# Discrete colorway used for multi-series/categorical charts — shades of the one accent
+COLORWAY = [ACCENT, ACCENT_DARK, ACCENT_TINT_STRONG, BG_SOFT, INK_SOFT, BORDER]
 
 # Continuous scale used for adoption-score bar charts
-CONTINUOUS_SCALE = [[0, CORAL_TINT], [0.5, VIOLET_TINT], [1, TEAL_TINT]]
+CONTINUOUS_SCALE = [[0, SURFACE_ALT], [0.5, ACCENT_TINT_STRONG], [1, ACCENT]]
 
 # Shared Plotly layout — spread this into fig.update_layout(**PLOTLY_LAYOUT)
 PLOTLY_LAYOUT = dict(
-    paper_bgcolor=CARD_BG,
-    plot_bgcolor=CARD_BG,
+    paper_bgcolor=SURFACE,
+    plot_bgcolor=SURFACE,
     font=dict(family=FONT_BODY, color=INK, size=13),
     title_font=dict(family=FONT_DISPLAY, color=INK, size=17),
     colorway=COLORWAY,

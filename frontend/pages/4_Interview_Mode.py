@@ -11,6 +11,7 @@ if css:
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
 st.markdown('<div class="eyebrow">One-on-One Session</div>', unsafe_allow_html=True)
+st.title("💬 Interview Mode")
 
 if not has_personas():
     st.warning("No personas yet. Create an experiment first.")
@@ -34,7 +35,7 @@ persona = get_persona_by_id(selected_id)
 tier = score_tier(persona["adoption_score"])
 tier_class = {"high": "score-high", "mid": "score-mid", "low": "score-low"}[tier]
 
-st.title(f"💬 Interview: {persona['name']}")
+st.subheader(f"💬 Interview: {persona['name']}")
 st.markdown(
     f"""
     <div class="specimen-meta">👤 {persona['age']}, {persona['occupation']}

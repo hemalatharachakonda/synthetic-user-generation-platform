@@ -1,7 +1,7 @@
 import plotly.express as px
 import pandas as pd
 import streamlit as st
-from styles.theme import SENTIMENT_COLORS, PLOTLY_LAYOUT, CONTINUOUS_SCALE, VIOLET
+from styles.theme import SENTIMENT_COLORS, PLOTLY_LAYOUT, CONTINUOUS_SCALE, ACCENT
 
 
 def adoption_chart(personas: list[dict]):
@@ -47,7 +47,7 @@ def theme_bars(themes: list[dict]):
     fig = px.bar(
         df, x="mentions_pct", y="theme", orientation="h",
         title="Theme Clusters", labels={"mentions_pct": "% Mentions", "theme": ""},
-        color_discrete_sequence=[VIOLET],
+        color_discrete_sequence=[ACCENT],
     )
     fig.update_layout(**PLOTLY_LAYOUT, showlegend=False)
     fig.update_traces(marker_line_width=0)
