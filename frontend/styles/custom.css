@@ -1,0 +1,295 @@
+/* ============================================================
+   Synthetic User Generation Platform — "Field Research Lab" theme
+   Design tokens live here as CSS custom properties.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root {
+    --paper: #EDF0EA;
+    --paper-alt: #E3E7DE;
+    --ink: #1E2A26;
+    --ink-soft: #4B5A54;
+    --sage: #4F7568;
+    --sage-dark: #34473F;
+    --sage-tint: #DCE6DE;
+    --amber: #D98E3F;
+    --amber-tint: #F6E3C4;
+    --brick: #B5533C;
+    --brick-tint: #F3DAD2;
+    --card-bg: #FFFFFF;
+    --border: #D2D9CB;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+}
+
+/* ── Base canvas ─────────────────────────────────────────────── */
+.stApp {
+    background-color: var(--paper);
+    font-family: var(--font-body);
+    color: var(--ink);
+}
+
+section[data-testid="stSidebar"] {
+    background-color: var(--ink);
+    border-right: 1px solid var(--sage-dark);
+}
+section[data-testid="stSidebar"] * {
+    color: var(--paper) !important;
+}
+section[data-testid="stSidebar"] .stCaption, section[data-testid="stSidebar"] small {
+    color: var(--sage-tint) !important;
+    opacity: 0.85;
+}
+
+/* ── Typography ──────────────────────────────────────────────── */
+h1, h2, h3 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.01em;
+}
+h1 { font-weight: 600; }
+h2, h3 { font-weight: 500; }
+
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 600;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.stButton > button {
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    border: 1.5px solid var(--ink);
+    background-color: var(--card-bg);
+    color: var(--ink);
+    transition: all 0.15s ease;
+}
+.stButton > button:hover {
+    background-color: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+.stButton > button[kind="primary"] {
+    background-color: var(--sage);
+    border-color: var(--sage-dark);
+    color: #FFFFFF;
+}
+.stButton > button[kind="primary"]:hover {
+    background-color: var(--sage-dark);
+}
+
+/* ── Containers / cards ──────────────────────────────────────── */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 10px !important;
+    border: 1px solid var(--border) !important;
+    background-color: var(--card-bg);
+}
+
+/* ── Metrics ─────────────────────────────────────────────────── */
+div[data-testid="stMetric"] {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+}
+div[data-testid="stMetricValue"] {
+    font-family: var(--font-mono);
+    font-size: 1.9rem;
+    color: var(--sage-dark);
+}
+div[data-testid="stMetricLabel"] {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+}
+
+/* ── Inputs ──────────────────────────────────────────────────── */
+.stTextInput input, .stTextArea textarea, .stSelectbox div[data-baseweb="select"] {
+    border-radius: 6px !important;
+    border-color: var(--border) !important;
+    font-family: var(--font-body);
+}
+.stTextInput input:focus, .stTextArea textarea:focus {
+    border-color: var(--sage) !important;
+    box-shadow: 0 0 0 1px var(--sage) !important;
+}
+
+/* ── Progress bar ────────────────────────────────────────────── */
+div[data-testid="stProgress"] div[role="progressbar"] > div {
+    background-color: var(--amber) !important;
+}
+
+/* ── Dataframe ───────────────────────────────────────────────── */
+div[data-testid="stDataFrame"] {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* ── Chat ────────────────────────────────────────────────────── */
+.stChatMessage {
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+/* ── Hero banner (Home page) ────────────────────────────────── */
+.lab-hero {
+    background-color: var(--ink);
+    background-image:
+        radial-gradient(circle, rgba(237,240,234,0.10) 1px, transparent 1px);
+    background-size: 18px 18px;
+    border-radius: 14px;
+    padding: 2.6rem 2.4rem;
+    margin-bottom: 1.4rem;
+    border: 1px solid var(--sage-dark);
+}
+.lab-hero .eyebrow { color: var(--amber); }
+.lab-hero h1 {
+    color: var(--paper);
+    font-size: 2.6rem;
+    margin: 0.3rem 0 0.6rem 0;
+}
+.lab-hero p.tagline {
+    color: var(--sage-tint);
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    max-width: 40ch;
+    margin-bottom: 0;
+}
+.lab-hero .readout-row {
+    display: flex;
+    gap: 1.8rem;
+    margin-top: 1.6rem;
+    flex-wrap: wrap;
+}
+.lab-hero .readout {
+    font-family: var(--font-mono);
+    color: var(--paper);
+    border-left: 2px solid var(--amber);
+    padding-left: 0.7rem;
+}
+.lab-hero .readout .val {
+    font-size: 1.4rem;
+    font-weight: 600;
+    display: block;
+}
+.lab-hero .readout .lbl {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage-tint);
+}
+
+/* ── Specimen card (Persona) ────────────────────────────────── */
+.specimen-card {
+    position: relative;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem 1.1rem 0.9rem 1.1rem;
+    margin-bottom: 0.6rem;
+}
+.specimen-card::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--paper);
+    border: 1.5px solid var(--border);
+}
+.specimen-id {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-left: 18px;
+}
+.specimen-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0.15rem 0 0 18px;
+}
+.specimen-meta {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-left: 18px;
+}
+.score-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.78rem;
+    border-radius: 999px;
+    padding: 0.15rem 0.65rem;
+    border: 1.5px solid transparent;
+}
+.score-high { background-color: var(--sage-tint); color: var(--sage-dark); border-color: var(--sage); }
+.score-mid  { background-color: var(--amber-tint); color: #8A5A1F; border-color: var(--amber); }
+.score-low  { background-color: var(--brick-tint); color: var(--brick); border-color: var(--brick); }
+
+.tag-pill {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: var(--paper-alt);
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.1rem 0.5rem;
+    margin: 0.15rem 0.25rem 0 0;
+}
+
+/* ── Section eyebrow divider ─────────────────────────────────── */
+.section-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin: 1.2rem 0 0.8rem 0;
+    font-weight: 600;
+}
+
+/* ── Step markers (Experiment Workspace) ────────────────────── */
+.step-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--sage-dark);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+.step-marker .num {
+    background-color: var(--sage);
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+}
