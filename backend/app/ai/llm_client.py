@@ -6,7 +6,6 @@ decide how to degrade gracefully (e.g. synthetic Faker fallback).
 """
 import json
 
-import litellm
 from loguru import logger
 
 from app.ai.model_router import ModelCandidate, ModelRouter
@@ -18,7 +17,14 @@ from app.exceptions.llm_exceptions import (
     LLMUnavailableError,
 )
 
-litellm.drop_params = True  # ignore provider-unsupported params instead of raising
+try:
+    import litellm
+except Exception as exc:  # pragma: no cover - environment-dependent
+    litellm = None
+    _litellm_import_error = exc
+else:
+    _litellm_import_error = None
+    litellm.drop_params = True  # ignore provider-unsupported params instead of raising
 
 
 class LLMClient:
@@ -27,6 +33,11 @@ class LLMClient:
         self.router = ModelRouter()
 
     async def _call_one(self, candidate: ModelCandidate, system_prompt: str, user_prompt: str) -> str:
+        if litellm is None:
+            raise LLMUnavailableError(
+                f"LiteLLM could not be imported: {_litellm_import_error}"
+            ) from _litellm_import_error
+
         kwargs = {
             "model": candidate.model,
             "messages": [
@@ -59,12 +70,6 @@ class LLMClient:
                 return self._parse_json(raw)
             except LLMResponseParsingError:
                 raise  # a provider responded but gave unusable content; don't mask this
-            except litellm.exceptions.Timeout as e:
-                last_error = e
-                logger.warning(f"[{candidate.provider}] timed out, trying next candidate")
-            except litellm.exceptions.RateLimitError as e:
-                last_error = LLMRateLimitError(str(e))
-                logger.warning(f"[{candidate.provider}] rate-limited, trying next candidate")
             except Exception as e:  # noqa: BLE001 - genuinely want to try the next provider
                 last_error = e
                 logger.warning(f"[{candidate.provider}] call failed ({e}), trying next candidate")
