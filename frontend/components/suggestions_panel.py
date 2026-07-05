@@ -6,15 +6,17 @@ def render_user_wants_summary(summary: str):
     """Plain-English 'what users want' takeaway, styled as a highlighted band."""
     if not summary:
         return
-    st.markdown(
-        f"""
-        <div class="insight-summary-band">
-            <span class="im-summary-label">What Users Want</span>
-            <p>{html.escape(summary)}</p>
-        </div>
-        """,
-        unsafe_allow_html=True,
+    # NOTE: kept as compact single-line HTML (no leading indentation/newlines).
+    # Streamlit's markdown renderer treats 4+ leading spaces as a Markdown code
+    # block, so indented multi-line HTML can silently fall back to being
+    # displayed as literal text instead of rendering.
+    markup = (
+        '<div class="insight-summary-band">'
+        '<span class="im-summary-label">What Users Want</span>'
+        f'<p>{html.escape(summary)}</p>'
+        '</div>'
     )
+    st.markdown(markup, unsafe_allow_html=True)
 
 
 def render_suggestions(suggestions: list[dict]):
@@ -32,21 +34,23 @@ def render_suggestions(suggestions: list[dict]):
         suggestion_text = html.escape(s.get("suggestion", ""))
         personas = s.get("personas") or []
         mentioned = f"Raised by {', '.join(html.escape(p) for p in personas)}" if personas else ""
+        mentioned_span = f'<span class="mentioned-by">{mentioned}</span>' if mentioned else ""
 
+        # Compact single-line HTML per card — see note above. Joining
+        # indented triple-quoted fragments is what caused only the first
+        # card to render while the rest showed up as raw code text.
         cards.append(
-            f"""
-            <div class="suggestion-card">
-                <div class="suggestion-rank">{i:02d}</div>
-                <div class="suggestion-body">
-                    <div class="suggestion-title">{suggestion_text}</div>
-                    <div class="suggestion-meta">
-                        <span class="priority-badge priority-{priority}">{priority}</span>
-                        <span class="category-pill">{category}</span>
-                        {f'<span class="mentioned-by">{mentioned}</span>' if mentioned else ''}
-                    </div>
-                </div>
-            </div>
-            """
+            '<div class="suggestion-card">'
+            f'<div class="suggestion-rank">{i:02d}</div>'
+            '<div class="suggestion-body">'
+            f'<div class="suggestion-title">{suggestion_text}</div>'
+            '<div class="suggestion-meta">'
+            f'<span class="priority-badge priority-{priority}">{priority}</span>'
+            f'<span class="category-pill">{category}</span>'
+            f'{mentioned_span}'
+            '</div>'
+            '</div>'
+            '</div>'
         )
 
     st.markdown(

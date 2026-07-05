@@ -72,14 +72,15 @@ adoption_chart(st.session_state.personas)
 st.markdown('<div class="section-label">Key Quotes</div>', unsafe_allow_html=True)
 quote_cards = []
 for q in insights.get("key_quotes", []):
+    # Compact single-line HTML — indented multi-line f-strings get treated
+    # by Streamlit's markdown renderer as a Markdown code block (4+ leading
+    # spaces), which silently breaks rendering after the first item.
     quote_cards.append(
-        f"""
-        <div class="quote-card-clean">
-            <span class="qmark">\u201c</span>
-            <div class="qtext">{q['quote']}</div>
-            <div class="qmeta">— {q['persona']}</div>
-        </div>
-        """
+        '<div class="quote-card-clean">'
+        '<span class="qmark">\u201c</span>'
+        f'<div class="qtext">{q["quote"]}</div>'
+        f'<div class="qmeta">— {q["persona"]}</div>'
+        '</div>'
     )
 if quote_cards:
     st.markdown(f'<div class="quote-grid">{"".join(quote_cards)}</div>', unsafe_allow_html=True)
