@@ -42,7 +42,7 @@ API_TIMEOUT_SECONDS = 30
 
 # ── Groq (only used if frontend calls the LLM directly; optional) ───────────
 GROQ_API_KEY = _get_setting("GROQ_API_KEY", "")
-GROQ_MODEL = _get_setting("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = _get_setting("GROQ_MODEL", "openai/gpt-oss-120b")
 
 # ── App metadata ─────────────────────────────────────────────────────────────
 APP_NAME = "Synthetic User Generation Platform"
