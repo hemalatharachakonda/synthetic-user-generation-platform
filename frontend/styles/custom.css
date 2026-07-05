@@ -357,9 +357,10 @@ div[data-testid="stDataFrame"] {
 }
 
 /* ============================================================
-   Insights Dashboard + Suggestions — visual clarity only.
+   Insights Dashboard + Suggestions — visual clarity pass.
    Scoped classes below are only used on the Insights Dashboard
-   and Report pages; nothing above this line is touched.
+   and Report pages; nothing above this line is touched, and no
+   markup/component logic changed — CSS only.
    ============================================================ */
 
 /* Metric readout row — clearer than raw st.metric, same design language */
@@ -374,29 +375,36 @@ div[data-testid="stDataFrame"] {
     min-width: 170px;
     background-color: var(--surface);
     border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
     border-radius: 14px;
     padding: 1rem 1.15rem;
     box-shadow: var(--shadow-card);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.insight-metric-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-1px);
 }
 .insight-metric-card .im-label {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-soft);
+    font-weight: 600;
 }
 .insight-metric-card .im-value {
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 2.1rem;
+    font-weight: 800;
+    font-size: 2.3rem;
     color: var(--accent-dark);
-    line-height: 1.25;
-    margin-top: 0.15rem;
+    line-height: 1.2;
+    margin-top: 0.2rem;
 }
 .insight-metric-card .im-sub {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     color: var(--ink-soft);
-    margin-top: 0.1rem;
+    margin-top: 0.15rem;
 }
 
 /* "What users want" summary band — plain-English takeaway up top */
@@ -405,130 +413,185 @@ div[data-testid="stDataFrame"] {
     border: 1px solid var(--border-on-dark);
     border-left: 4px solid var(--accent);
     border-radius: 14px;
-    padding: 1rem 1.2rem;
-    margin: 0.5rem 0 1.1rem 0;
+    padding: 1.1rem 1.3rem;
+    margin: 0.5rem 0 1.3rem 0;
+    box-shadow: var(--shadow-card);
 }
 .insight-summary-band .im-summary-label {
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 0.35rem;
-    display: block;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.insight-summary-band .im-summary-label::before {
+    content: "✺";
+    font-size: 0.85rem;
 }
 .insight-summary-band p {
     color: var(--ink-on-dark) !important;
     margin: 0;
-    font-size: 0.98rem;
-    line-height: 1.55;
+    font-size: 1.02rem;
+    line-height: 1.6;
 }
 
-/* Suggestions list — ranked, scannable cards */
+/* Suggestions list — ranked, scannable cards, priority readable at a glance */
 .suggestion-list {
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.65rem;
 }
 .suggestion-card {
     display: flex;
     align-items: flex-start;
-    gap: 0.75rem;
+    gap: 0.9rem;
     background-color: var(--surface);
     border: 1px solid var(--border);
+    border-left: 5px solid var(--border);
     border-radius: 14px;
-    padding: 0.8rem 1rem;
+    padding: 0.9rem 1.1rem;
     box-shadow: var(--shadow-card);
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-left-color 0.15s ease;
 }
+.suggestion-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-1px);
+}
+/* Left edge color-codes urgency so the list scans top-to-bottom at a glance,
+   without introducing a new hue — same accent, different strength. */
+.suggestion-card:has(.priority-high)   { border-left-color: var(--accent-dark); }
+.suggestion-card:has(.priority-medium) { border-left-color: var(--accent); }
+.suggestion-card:has(.priority-low)    { border-left-color: var(--border); }
+
 .suggestion-rank {
     font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--ink-soft);
-    min-width: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--surface);
+    background-color: var(--ink-soft);
+    min-width: 1.9rem;
+    height: 1.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 .suggestion-body { flex: 1; min-width: 0; }
 .suggestion-title {
     font-family: var(--font-body);
     font-weight: 600;
     color: var(--ink);
-    font-size: 0.96rem;
-    line-height: 1.4;
+    font-size: 0.98rem;
+    line-height: 1.45;
 }
 .suggestion-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
+    gap: 0.45rem;
     align-items: center;
-    margin-top: 0.45rem;
+    margin-top: 0.55rem;
 }
 .priority-badge {
     display: inline-flex;
     align-items: center;
+    gap: 0.3rem;
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.64rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: 700;
     border-radius: 999px;
-    padding: 0.14rem 0.55rem;
+    padding: 0.2rem 0.65rem 0.2rem 0.55rem;
+}
+/* Distinct glyph + weight per level, on top of the tint difference,
+   so priority reads correctly even at a glance or in grayscale. */
+.priority-badge::before { font-size: 0.7rem; line-height: 1; }
+.priority-high {
+    background-color: var(--accent-dark);
+    color: var(--surface);
+    border: 1.5px solid var(--accent-dark);
+}
+.priority-high::before { content: "▲"; }
+.priority-medium {
+    background-color: var(--accent-tint-strong);
+    color: var(--accent-dark);
     border: 1.5px solid var(--accent);
 }
-.priority-high   { background-color: var(--accent); color: var(--ink); }
-.priority-medium { background-color: var(--accent-tint-strong); color: var(--accent-dark); }
-.priority-low    { background-color: transparent; color: var(--accent-dark); }
+.priority-medium::before { content: "●"; }
+.priority-low {
+    background-color: transparent;
+    color: var(--ink-soft);
+    border: 1.5px dashed var(--border);
+}
+.priority-low::before { content: "▽"; }
+
 .category-pill {
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.64rem;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     background-color: var(--surface-alt);
     color: var(--ink-soft);
     border: 1px solid var(--border);
     border-radius: 999px;
-    padding: 0.12rem 0.5rem;
+    padding: 0.16rem 0.55rem;
+    font-weight: 600;
 }
 .mentioned-by {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: var(--ink-soft);
     font-style: italic;
+}
+.mentioned-by::before {
+    content: "— ";
 }
 
 /* Key quotes — clean grid instead of stacked, so it reads at a glance */
 .quote-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 0.65rem;
+    gap: 0.75rem;
 }
 .quote-card-clean {
     background-color: var(--surface);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 0.9rem 1rem;
+    padding: 1rem 1.1rem;
     box-shadow: var(--shadow-card);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.quote-card-clean:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-1px);
 }
 .quote-card-clean .qmark {
     font-family: var(--font-display);
-    font-size: 1.7rem;
+    font-size: 1.9rem;
     color: var(--accent);
     line-height: 1;
     display: block;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.2rem;
 }
 .quote-card-clean .qtext {
     font-family: var(--font-display);
     font-style: italic;
     color: var(--ink);
-    font-size: 1rem;
-    line-height: 1.4;
+    font-size: 1.02rem;
+    line-height: 1.45;
 }
 .quote-card-clean .qmeta {
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ink-soft);
+    color: var(--accent-dark);
+    font-weight: 600;
 }
