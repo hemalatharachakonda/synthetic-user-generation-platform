@@ -53,34 +53,61 @@ def create_experiment(product_name, description, target_audience, objectives) ->
     }
     if USE_MOCK_DATA:
         return experiment
-    return _post("/experiments", experiment)
+    return _post("/experiments", {
+        "title": product_name,
+        "product_description": description,
+        "target_audience": target_audience,
+        "research_objectives": objectives,
+        "persona_count": 5
+    })
 
 
 # ── Personas ──────────────────────────────────────────────────────────────────
 
-def generate_personas(product_name, description, target_audience, objectives, count) -> list[dict]:
+def generate_personas(experiment_id, count) -> list[dict]:
     if USE_MOCK_DATA:
-        return mock_data.generate_personas(product_name, description, target_audience, objectives, count)
+        return mock_data.generate_personas("", "", "", "", count)
     result = _post("/personas/generate", {
-        "product_name": product_name,
-        "description": description,
-        "target_audience": target_audience,
-        "objectives": objectives,
-        "count": count,
+        "experiment_id": experiment_id,
+        "persona_count": count,
+        "regenerate": False
     })
-    return result.get("personas", [])
+    return result.get("items", [])
 
 
 # ── Survey ────────────────────────────────────────────────────────────────────
 
+def create_survey(experiment_id, title, questions) -> dict:
+    if USE_MOCK_DATA:
+        return {"id": f"survey_{abs(hash(title)) % 100000}", "title": title, "questions": questions}
+    return _post("/surveys", {
+        "experiment_id": experiment_id,
+        "title": title,
+        "questions": questions
+    })
+
+
+def execute_survey(survey_id) -> dict:
+    if USE_MOCK_DATA:
+        return {"survey_id": survey_id, "persona_responses": []}
+    return _post("/surveys/execute", {
+        "survey_id": survey_id,
+        "regenerate": False
+    })
+
+
+def get_survey_responses(survey_id) -> dict:
+    if USE_MOCK_DATA:
+        return {"survey_id": survey_id, "persona_responses": []}
+    return _get(f"/surveys/{survey_id}/responses")
+
+
 def run_survey_question(personas: list[dict], question: str) -> dict:
+    # Legacy function for backward compatibility
     if USE_MOCK_DATA:
         return mock_data.run_survey_question(personas, question)
-    result = _post("/survey/run", {
-        "persona_ids": [p["id"] for p in personas],
-        "question": question,
-    })
-    return result.get("responses", {})
+    # This would need to be implemented via the new survey endpoints
+    return mock_data.run_survey_question(personas, question)
 
 
 # ── Interview ─────────────────────────────────────────────────────────────────

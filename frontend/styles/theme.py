@@ -83,7 +83,7 @@ def load_css(path: str = "styles/custom.css") -> str:
     here = os.path.dirname(os.path.abspath(__file__))
     resolved = os.path.join(here, filename)
     try:
-        with open(resolved, "r") as f:
+        with open(resolved, "r", encoding="utf-8") as f:
             return f.read()
     except FileNotFoundError:
         return ""

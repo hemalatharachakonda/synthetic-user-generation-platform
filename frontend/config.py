@@ -34,10 +34,10 @@ def _get_setting(key: str, default: str = "") -> str:
 
 
 # ── Mode toggle ──────────────────────────────────────────────────────────────
-USE_MOCK_DATA = _get_setting("USE_MOCK_DATA", "true").lower() == "true"
+USE_MOCK_DATA = _get_setting("USE_MOCK_DATA", "false").lower() == "true"
 
 # ── Backend ──────────────────────────────────────────────────────────────────
-BACKEND_BASE_URL = _get_setting("BACKEND_BASE_URL", "http://localhost:8000/api")
+BACKEND_BASE_URL = _get_setting("BACKEND_BASE_URL", "http://localhost:8000/api/v1")
 API_TIMEOUT_SECONDS = 30
 
 # ── Groq (only used if frontend calls the LLM directly; optional) ───────────

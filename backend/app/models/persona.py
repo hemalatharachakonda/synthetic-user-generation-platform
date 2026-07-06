@@ -54,6 +54,7 @@ class Persona(Base, UUIDPKMixin, TimestampMixin):
     product_fit_score: Mapped[float] = mapped_column(Float, nullable=True)  # populated in Milestone 3
 
     experiment: Mapped["Experiment"] = relationship(back_populates="personas")  # noqa: F821
+    responses: Mapped[list["Response"]] = relationship(back_populates="persona", cascade="all, delete-orphan")  # noqa: F821
 
     def __repr__(self) -> str:
         return f"<Persona id={self.id} name={self.name!r} occupation={self.occupation!r}>"

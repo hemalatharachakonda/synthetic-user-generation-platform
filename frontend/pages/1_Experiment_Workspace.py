@@ -57,7 +57,8 @@ if submitted:
             st.session_state.experiment = experiment
 
         with st.spinner(f"Generating {persona_count} personas..."):
-            personas = generate_personas(product_name, description, target_audience, objectives, persona_count)
+            # Use the new API signature
+            personas = generate_personas(experiment.get("id", ""), persona_count)
             st.session_state.personas = personas
             st.session_state.experiment["status"] = "personas_generated"
 
