@@ -5,7 +5,7 @@ simulate user research without needing real participants. The platform generates
 realistic virtual personas who provide product feedback through surveys and
 conversational interviews, then extracts actionable insights and exports a
 professional research report.
-
+ 
 ---
 
 ## Project Overview
